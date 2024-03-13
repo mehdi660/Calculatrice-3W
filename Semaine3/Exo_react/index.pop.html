@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Name Lengths</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      .person {
+        margin-bottom: 10px;
+      }
+      .person-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const populations = [
+        { id: 0, name: "Alan" },
+        { id: 1, name: "Albert" },
+        { id: 2, name: "Jhon" },
+        { id: 3, name: "Brice" },
+        { id: 4, name: "Alexendra" },
+        { id: 5, name: "Brad" },
+        { id: 6, name: "Carl" },
+        { id: 7, name: "Dallas" },
+        { id: 8, name: "Dennis" },
+        { id: 9, name: "Edgar" },
+        { id: 10, name: "Erika" },
+        { id: 11, name: "Isaac" },
+        { id: 12, name: "Ian" },
+      ];
+
+      const sortedPopulations = populations
+        .slice()
+        .sort((a, b) => b.name.length - a.name.length);
+
+      const Person = ({ name }) => {
+        const nameLength = name.length;
+        return (
+          <div className="person">
+            <span className="person-name">{name}: </span>
+            <span>Name Length: {nameLength}</span>
+          </div>
+        );
+      };
+
+      const App = () => {
+        return (
+          <div>
+            <ul>
+              {sortedPopulations.map((person) => (
+                <Person key={person.id} name={person.name} />
+              ))}
+            </ul>
+          </div>
+        );
+      };
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>

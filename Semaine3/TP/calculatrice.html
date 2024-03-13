@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      body {
+        background: #642b73;
+        background: -webkit-linear-gradient(to right, #c6426e, #642b73);
+        background: linear-gradient(to right, #c6426e, #642b73);
+      }
+
+      .main {
+        background: #d9a7c7;
+        background: -webkit-linear-gradient(to right, #fffcdc, #d9a7c7);
+        background: linear-gradient(to right, #fffcdc, #d9a7c7);
+
+        border-radius: 10px;
+        height: 100%;
+        width: 70%;
+        margin: 0 auto;
+      }
+
+      .calculatrice {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: 300px;
+        padding: 80px;
+      }
+
+      input {
+        margin-bottom: 10px;
+        border-radius: 5px;
+        padding: 5px;
+        width: 50%;
+        font-size: 20px;
+        text-align: center;
+      }
+
+      button {
+        margin-top: 10px;
+        border-radius: 5px;
+        background-color: #642b73;
+        color: white;
+        width: 80px;
+        font-size: 20px;
+        transition: 0.3s ease-in-out;
+      }
+
+      button:hover {
+        background-color: #93910c;
+        cursor: pointer;
+      }
+
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function App() {
+        const [number1, setNumber1] = React.useState("");
+        const [number2, setNumber2] = React.useState("");
+        const [result, setResult] = React.useState(0);
+        const [congrats, setCongrats] = React.useState("");
+        const [errorMessage, setErrorMessage] = React.useState("");
+        const [count, setCount] = React.useState(0);
+
+        function counter() {
+          setCount(count + 1);
+        }
+
+        React.useEffect(() => {
+          if (count == 10) {
+            setCongrats("Bien joué!!!");
+          }
+        }, [count]);
+
+        function addition() {
+          if (!number1 || isNaN(number1) || !number2 || isNaN(number2)) {
+            setErrorMessage("Please enter valid numbers");
+            return;
+          }
+          setResult(parseFloat(number1) + parseFloat(number2));
+          counter();
+          setErrorMessage("");
+        }
+
+        function multiplication() {
+          if (!number1 || isNaN(number1) || !number2 || isNaN(number2)) {
+            setErrorMessage("Please enter valid numbers");
+            return;
+          }
+          setResult(parseFloat(number1) * parseFloat(number2));
+          counter();
+          setErrorMessage("");
+        }
+
+        function reset() {
+          setNumber1("");
+          setNumber2("");
+          setResult(0);
+          setErrorMessage("");
+        }
+
+        return (
+          <div className="main">
+            <div className="calculatrice">
+              <input
+                type="text"
+                name="number"
+                value={number1}
+                required
+                onChange={(e) => setNumber1(e.target.value)}
+              />
+
+              <input
+                type="text"
+                name="number"
+                value={number2}
+                required
+                onChange={(e) => setNumber2(e.target.value)}
+              />
+              <button onClick={addition}>+</button>
+              <button onClick={multiplication}>x</button>
+              <button onClick={reset}>Reset</button>
+              <p>Result: {result}</p>
+              {errorMessage && <p className="error">{errorMessage}</p>}
+              <p>{congrats}</p>
+            </div>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>

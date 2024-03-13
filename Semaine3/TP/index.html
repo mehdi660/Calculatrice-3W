@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      body {
+        background-image: linear-gradient(0deg, #d9afd9 0%, #97d9e1 100%);
+      }
+
+      .heading {
+        color: purple;
+      }
+
+      .clock {
+        font-size: 30px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 2px 2px 2px #000;
+        text-align: center;
+      }
+
+      .main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 96vh;
+      }
+
+      ul {
+        display: flex;
+        padding: 0;
+      }
+
+      li {
+        list-style: none;
+        font-size: 19px;
+        margin: 0 10px;
+      }
+
+      button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: 0.3s ease-in-out;
+        box-shadow: rgba (255, 255, 255, 0 2, 0 2);
+      }
+      * button:hover {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const root = document.getElementById("root");
+
+      const numbers = [
+        4, 14, 20, 6, 11, 12, 13, 5, 16, 10, 3, 15, 2, 18, 19, 8, 17, 1, 9, 7,
+      ];
+
+      function Display() {
+        const [isOrder, setIsOrder] = React.useState(false);
+        const ordonnedNum = [...numbers].sort((a, b) => a - b);
+        const nonOrdennedNum = [...numbers].sort((a, b) => b - a);
+
+        function handleOrder() {
+          setIsOrder(!isOrder);
+        }
+
+        return (
+          <div className="main">
+            <ul>
+              {(isOrder ? ordonnedNum : nonOrdennedNum).map((num, i) => (
+                <li key={i}>{num}</li>
+              ))}
+            </ul>
+            <button onClick={handleOrder}>
+              {isOrder ? "Unorder the list" : "Order the list"}
+            </button>
+          </div>
+        );
+      }
+      const Clock = () => {
+        const time = new Date();
+
+        const hours = time.getHours().toString().padStart(2, "0");
+        const minutes = time.getMinutes().toString().padStart(2, "0");
+        const seconds = time.getSeconds().toString().padStart(2, "0");
+
+        const updateTime = () => {
+          const newTime = new Date();
+          const newHours = newTime.getHours().toString().padStart(2, "0");
+          const newMinutes = newTime.getMinutes().toString().padStart(2, "0");
+          const newSeconds = newTime.getSeconds().toString().padStart(2, "0");
+
+          document.getElementById("hours").textContent = newHours;
+          document.getElementById("minutes").textContent = newMinutes;
+          document.getElementById("seconds").textContent = newSeconds;
+        };
+
+        setInterval(updateTime, 1000);
+
+        return (
+          <header className="clock">
+            <span id="hours">{hours}</span>:<span id="minutes">{minutes}</span>:
+            <span id="seconds">{seconds}</span>
+          </header>
+        );
+      };
+
+      function Phrase() {
+        const [phrase, setPhrase] = React.useState("");
+        const [string, setString] = React.useState([]);
+
+        const handleChange = (e) => {
+          const { value } = e.target;
+          setPhrase(value);
+        };
+
+        const handleSave = () => {
+          setString([...string, phrase]);
+          setPhrase("");
+        };
+        return (
+          <div className="main">
+            <input
+              type="text"
+              onChange={handleChange}
+              value={phrase}
+              name="phrase"
+            />
+            <button onClick={handleSave}>Add</button>
+            {string.map((str, i) => (
+              <p key={i}>{str}</p>
+            ))}
+          </div>
+        );
+      }
+
+      function App(props) {
+        return (
+          <React.Fragment>
+            <Clock />
+            <Display />
+            <Phrase />
+          </React.Fragment>
+        );
+      }
+
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+  </body>
+</html>

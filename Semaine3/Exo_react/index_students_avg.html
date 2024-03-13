@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Student Averages</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      .student {
+        margin-bottom: 10px;
+      }
+      .student-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const students = [
+        { notes: [12, 11, 10], name: "Alan" },
+        { notes: [18, 10, 19], name: "Alice" },
+        { notes: [10, 9, 11], name: "Bernard" },
+        { notes: [11, 17, 19], name: "Sophie" },
+      ];
+
+      const Student = ({ student }) => {
+        const average =
+          student.notes.reduce((acc, note) => acc + note, 0) /
+          student.notes.length;
+        return (
+          <div className="student">
+            <span className="student-name">{student.name}: </span>
+            <span>Average: {average.toFixed(2)}</span>
+          </div>
+        );
+      };
+
+      const StudentsList = () => {
+        return (
+          <ul>
+            {students.map((student) => (
+              <Student key={student.name} student={student} />
+            ))}
+          </ul>
+        );
+      };
+
+      // Render the StudentsList component in the DOM
+      ReactDOM.createRoot(document.getElementById("root")).render(
+        <StudentsList />
+      );
+    </script>
+  </body>
+</html>

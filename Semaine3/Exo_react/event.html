@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello React</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <!-- babel => compilation du JSX -->
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      .heading {
+        color: purple;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const root = document.getElementById("root");
+
+      function CountOne() {
+        const [count, setCount] = React.useState(0);
+        const [isStarted, setIsStarted] = React.useState(false);
+        const intervalRef = React.useRef();
+
+        function start() {
+          setIsStarted(true);
+          intervalRef.current = setInterval(() => {
+            setCount((currentCount) => {
+              if (currentCount < 20) {
+                return currentCount + 1;
+              } else {
+                clearInterval(intervalRef.current);
+                setIsStarted(false);
+                return currentCount;
+              }
+            });
+          }, 1000);
+        }
+
+        function stop() {
+          clearInterval(intervalRef.current);
+          setIsStarted(false);
+        }
+
+        function reset() {
+          setCount(0);
+        }
+
+        return (
+          <div>
+            <h1>Compteur</h1>
+            <p>Valeur actuelle : {count}</p>
+            <button onClick={start} disabled={isStarted}>
+              Start
+            </button>
+            <button onClick={stop} disabled={!isStarted}>
+              Stop
+            </button>
+            <button onClick={reset}>Réinitialiser</button>
+          </div>
+        );
+      }
+
+      function CountTwo() {
+        const [count, setCount] = React.useState(0);
+        const [isStarted, setIsStarted] = React.useState(false);
+        const intervalRef = React.useRef();
+        function start() {
+          setIsStarted(true);
+          intervalRef.current = setInterval(() => {
+            setCount((currentCount) => {
+              if (currentCount < 20) {
+                return currentCount + 2;
+              } else {
+                clearInterval(intervalRef.current);
+                setIsStarted(false);
+                return currentCount;
+              }
+            });
+          }, 1000);
+        }
+
+        function stop() {
+          clearInterval(intervalRef.current);
+          setIsStarted(false);
+        }
+
+        function reset() {
+          setCount(0);
+        }
+
+        return (
+          <div>
+            <h1>Count: {count}</h1>
+            <button onClick={start} disabled={isStarted}>
+              Start
+            </button>
+            <button onClick={stop} disabled={!isStarted}>
+              Stop
+            </button>
+            <button onClick={reset}>Réinitialiser</button>
+          </div>
+        );
+      }
+
+      function CycleCounter() {
+        const [count, setCount] = React.useState(0);
+        const [isStarted, setIsStarted] = React.useState(false);
+        const intervalRef = React.useRef();
+
+        function start() {
+          setIsStarted(true);
+          intervalRef.current = setInterval(() => {
+            setCount((currentCount) => (currentCount + 1) % 6);
+          }, 1000);
+        }
+
+        function stop() {
+          clearInterval(intervalRef.current);
+          setIsStarted(false);
+        }
+
+        function reset() {
+          setCount(0);
+        }
+
+        return (
+          <div>
+            <h1>Compteur cyclique : {count}</h1>
+            <button onClick={start} disabled={isStarted}>
+              Start
+            </button>
+            <button onClick={stop} disabled={!isStarted}>
+              Stop
+            </button>
+            <button onClick={reset}>Réinitialiser</button>
+          </div>
+        );
+      }
+
+      function BinnaryCounter() {
+        const [count, setCount] = React.useState(1);
+        const [isStarted, setIsStarted] = React.useState(false);
+        const intervalRef = React.useRef();
+
+        function start() {
+          setIsStarted(true);
+          intervalRef.current = setInterval(() => {
+            setCount((currentCount) => currentCount + currentCount);
+          }, 1000);
+        }
+
+        function stop() {
+          clearInterval(intervalRef.current);
+          setIsStarted(false);
+        }
+
+        function reset() {
+          setCount(0);
+        }
+
+        return (
+          <div>
+            <h1>Compteur binnaire : {count}</h1>
+            <button onClick={start} disabled={isStarted}>
+              Start
+            </button>
+            <button onClick={stop} disabled={!isStarted}>
+              Stop
+            </button>
+            <button onClick={reset}>Réinitialiser</button>
+          </div>
+        );
+      }
+
+      function App(props) {
+        return (
+          <Layout>
+            <CountOne />
+            <CountTwo />
+            <CycleCounter />
+            <BinnaryCounter />
+          </Layout>
+        );
+      }
+
+      function Layout({ children }) {
+        return (
+          <div className="main">
+            <nav>
+              <ul>
+                <li>Home</li>
+              </ul>
+            </nav>
+            {children}
+            <footer>
+              <p>Copy right</p>
+            </footer>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+  </body>
+</html>

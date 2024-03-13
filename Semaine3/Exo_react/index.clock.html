@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Name Lengths</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      .person {
+        margin-bottom: 10px;
+      }
+      .person-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const Clock = () => {
+        const time = new Date();
+
+        const hours = time.getHours().toString().padStart(2, "0");
+        const minutes = time.getMinutes().toString().padStart(2, "0");
+        const seconds = time.getSeconds().toString().padStart(2, "0");
+
+        // Fonction pour mettre à jour l'heure
+        const updateTime = () => {
+          const newTime = new Date();
+          const newHours = newTime.getHours().toString().padStart(2, "0");
+          const newMinutes = newTime.getMinutes().toString().padStart(2, "0");
+          const newSeconds = newTime.getSeconds().toString().padStart(2, "0");
+
+          document.getElementById("hours").textContent = newHours;
+          document.getElementById("minutes").textContent = newMinutes;
+          document.getElementById("seconds").textContent = newSeconds;
+        };
+
+        // Définir l'intervalle de mise à jour
+        setInterval(updateTime, 1000);
+
+        return (
+          <div>
+            <span id="hours">{hours}</span>:<span id="minutes">{minutes}</span>:
+            <span id="seconds">{seconds}</span>
+          </div>
+        );
+      };
+
+      const App = () => {
+        return (
+          <div>
+            <Clock />
+          </div>
+        );
+      };
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
