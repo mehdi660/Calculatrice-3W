@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Student Averages</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+    <style>
+      .student {
+        margin-bottom: 10px;
+      }
+      .student-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      function UsersList() {
+        const [users, setUsers] = React.useState([]);
+        const [loading, setLoading] = React.useState(true);
+
+        React.useEffect(() => {
+          setTimeout(() => {
+            fetch("https://jsonplaceholder.typicode.com/users")
+              .then((response) => response.json())
+              .then((data) => {
+                setUsers(data);
+                setLoading(false);
+              })
+              .catch((error) => {
+                console.error("Error fetching users: ", error);
+                setLoading(false);
+              });
+          }, 3000);
+        }, []);
+
+        return (
+          <div>
+            {loading && (
+              <div>
+                <h2>Loading...</h2>
+              </div>
+            )}
+            {users.map((user) => (
+              <div key={user.id} className="student">
+                <div className="student-name">{user.name}</div>
+                <div>({user.email})</div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(
+        <UsersList />
+      );
+    </script>
+  </body>
+</html>
